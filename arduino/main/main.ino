@@ -11,11 +11,9 @@ const int backButton = 9;
 const int clk = 15;
 const int dt = 10;
 
-// Encoder variables
-int encoderPosCount = 0;
+// Encoder position trackers
 int clkLast;
 int clkVal;
-boolean bCW;
 
 void setup() {
   // Set up pin modes
@@ -37,7 +35,7 @@ void setup() {
 }
 
 // Debounce control switches
-boolean readButton(int pin) {
+boolean readSwitch(int pin) {
   // Check and debounce buttons
   if (digitalRead(pin) == HIGH) {
     delay(10);
@@ -51,7 +49,7 @@ boolean readButton(int pin) {
 }
 
 // Implement button functionality
-void doAction(int pin) {
+void onPress(int pin) {
   switch(pin) {
     case fwdButton:
       Consumer.write(MEDIA_NEXT);
@@ -72,10 +70,10 @@ void doAction(int pin) {
 }
 
 void loop() {
-  // Check each button for press
+  // Check each switch for press
   for (int i = 7; i < 10; i++) {
-    if (readButton(i)) {
-      doAction(i);
+    if (readSwitch(i)) {
+      onPress(i);
     }
   }
 
